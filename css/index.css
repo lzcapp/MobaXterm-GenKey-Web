@@ -1,0 +1,155 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.box-main {
+    width: 300px; /* Set the width of the form */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f5f5f5;
+}
+
+fieldset {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+}
+
+h1 {
+    color: #303F9F;
+    text-justify: newspaper;
+    text-align: justify;
+    margin-bottom: 20px;
+}
+
+.container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px 0 20px;
+    font-size: 15px;
+}
+
+button:hover {
+    background-color: #007bff;
+}
+
+.github {
+    text-align: center;
+}
+
+html, body {
+    display: flex;
+    justify-content: center;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 15px;
+    background-color: #2b2b2b;
+    color: #212121;
+}
+
+form {
+    border: 5px solid #f1f1f1;
+}
+
+input[type=text], input[type=text] {
+    width: 100%;
+    padding: 16px 8px;
+    margin: 10px 0 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#space {
+    height: 15px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.container {
+    padding: 16px 0;
+    text-align: left;
+}
+
+.github {
+    padding: 20px 0 0;
+    text-align: right;
+}
+
+.github span {
+    color: #212121;
+    font-size: smaller;
+}
+
+.github span a {
+    color: #242424;
+    font-weight: bold;
+}
+
+.github span a img {
+    height: 18px;
+    padding-bottom: 3px;
+    vertical-align: middle;
+}
+
+#btnReset {
+    background-color: #757575;
+}
+
+#btnSubmit {
+    background-color: #3F51B5;
+}
+
+#lblType, #lblName, #lblVersion, #lblCount {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+select {
+    width: 100%;
+}
+
+.select-wrapper::after {
+    content: "▼";
+    font-size: 1rem;
+    top: 3px;
+    right: 10px;
+    position: absolute;
+}
+
+#inputType, #userName, #versionName, #userNum {
+    height: 35px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 5px 5px 5px 10px;
+    appearance: auto;
+    background-color: white;
+    display: block;
+    font-family: inherit;
+    font-size: 100%;
+    box-sizing: border-box;
+    width: 100%;
+}
