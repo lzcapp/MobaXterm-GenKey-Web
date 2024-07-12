@@ -24,27 +24,27 @@
                 <div class="pure-g">
                     <div class="pure-control-group pure-u-1">
                         <label for="licenseType" id="lblType">Type</label><br>
-                        <select name="licenseType" v-model="licenseType" id="inputType">
+                        <select name="licenseType" v-model="licenseType" id="inputType" @change="changeLicense($event.target.value)">
                             <option :value="val" v-for="(val, key) in LICENSE_TYPES">{{ key }}</option>
                         </select>
                     </div>
                     <div class="pure-control-group pure-u-1">
                         <label for="userName" id="lblName">Name</label>
-                        <my-input :idattr="'userName'" :placeholderattr="'Name'"
+                        <my-input :idattr="'userName'" :placeholderattr="namePlaceholder"
                                   :valueattr="userName"
                                   @set-data="setUserName" id="inputName">
                         </my-input>
                     </div>
                     <div class="pure-control-group pure-u-1">
                         <label for="versionName" id="lblVersion">Version</label>
-                        <my-input :idattr="'versionName'" :placeholderattr="'Version (24.1)'"
+                        <my-input :idattr="'versionName'" :placeholderattr="versionPlaceholder"
                                   :validation="'^[1-9][0-9]*\\.?\\d{0,1}$'"
                                   :valueattr="versionName" @set-data="setVersionName" id="inputVersion">
                         </my-input>
                     </div>
-                    <div class="pure-control-group pure-u-1">
+                    <div class="pure-control-group pure-u-1" v-if="showCount">
                         <label for="userNum" id="lblCount">Count</label>
-                        <my-input :idattr="'userNum'" :placeholderattr="'Count (1)'" :validation="'^[1-9]+\\d*$'"
+                        <my-input :idattr="'userNum'" :placeholderattr="countPlaceholder" :validation="'^(?:[1-9]|[1-9][0-9])$'"
                                   :valueattr="userNum"
                                   @set-data="setUserNum" id="inputCount">
                         </my-input>
@@ -67,9 +67,9 @@
                     <span>
                         <a href="https://github.com/lzcapp/MobaXterm-GenKey-Web" style="text-decoration: none;">
                             <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub">
-                            MobaXterm-GenKey
+                            MobaXterm-GenKey-Web
                         </a>
-                        <span id="forked">credit to</span>
+                        <span id="forked"> ❤ </span>
                         <a href="https://github.com/inused/pages" style="text-decoration: none;">
                             inused
                         </a>
@@ -80,21 +80,63 @@
     </div>
 </div>
 
+<!--suppress ES6PreferShortImport, EqualityComparisonWithCoercionJS -->
 <script type="module">
     import {LicenseType, generateLicense} from './js/index.js'
+
+    const userLanguage = navigator.language || navigator.userLanguage;
+    const languageCode = userLanguage.substring(0, 2);
+
+    let versionPlaceholder, namePlaceholder, countPlaceholder
+
+    if (languageCode == "zh") {
+        document.documentElement.lang = "zh";
+        document.getElementById("lblType").innerHTML = "类型"
+        document.getElementById("lblName").innerHTML = "用户名"
+        namePlaceholder = "请输入用户名"
+        document.getElementById("lblVersion").innerHTML = "版本"
+        versionPlaceholder = "请输入版本号"
+        document.getElementById("lblCount").innerHTML = "数量"
+        countPlaceholder = "请输入许可证数量（1 - 99）"
+        document.getElementById("btnReset").innerHTML = "清空"
+        document.getElementById("btnSubmit").innerHTML = "生成"
+    } else {
+        document.documentElement.lang = "zh";
+        document.getElementById("lblType").innerHTML = "License Type"
+        document.getElementById("lblName").innerHTML = "Name"
+        namePlaceholder = "Please enter name"
+        document.getElementById("lblVersion").innerHTML = "Version"
+        versionPlaceholder = "Please enter version"
+        document.getElementById("lblCount").innerHTML = "Number"
+        countPlaceholder = "Please enter number of licenses （1 - 99）"
+        document.getElementById("btnReset").innerHTML = "Reset"
+        document.getElementById("btnSubmit").innerHTML = "Generate"
+    }
 
     const app = new Vue({
         el: '#app',
         data() {
             return {
                 userName: '',
+                namePlaceholder: namePlaceholder,
                 versionName: '',
+                versionPlaceholder: versionPlaceholder,
                 userNum: '',
+                countPlaceholder: countPlaceholder,
                 licenseType: 1,
+                showCount: true,
                 LICENSE_TYPES: LicenseType
             }
         },
         methods: {
+            changeLicense(licenseType) {
+                if (licenseType == 3 || licenseType == 4) {
+                    this.showCount = false
+                    this.setUserNum(1)
+                } else {
+                    this.showCount = true
+                }
+            },
             resetForm: function () {
                 this.userName = '';
                 this.versionName = '';
@@ -112,11 +154,11 @@
             },
             generate() {
                 if (!this.userName) {
-                    alert('请填写用户名');
+                    alert(namePlaceholder);
                     return;
                 }
                 if (!this.versionName) {
-                    alert('请填写版本号');
+                    alert(versionPlaceholder);
                     return;
                 }
                 if (!this.userNum) this.userNum = 1;
@@ -142,14 +184,6 @@
         },
         components: {
             'my-input': {
-                template: `
-                  <div class="my-input">
-                    <input :id="idattr" :placeholder="placeholderattr" v-model="value" required/>
-                    <div :class="validationTipsDiplay" class="my-input-tips-wrap">
-                      <span class="my-input-tips">{{ validationtips }}</span>
-                      <div class="my-input-arrow"></div>
-                    </div>
-                  </div>`,
                 data() {
                     // 将组件外传入的 props 的 valueattr 赋值到当前的 data.value 值
                     // 同时本组件的 value 值是和当前变量双向绑定的
@@ -167,6 +201,14 @@
                     validation: {type: String, default: ''}, // 校验正则
                     validationtips: ''
                 },
+                template: `
+                  <div class="my-input">
+                    <input :id="idattr" :placeholder="placeholderattr" v-model="value" required/>
+                    <div :class="validationTipsDiplay" class="my-input-tips-wrap">
+                      <span class="my-input-tips">{{ validationtips }}</span>
+                      <div class="my-input-arrow"></div>
+                    </div>
+                  </div>`,
                 watch: {
                     valueattr(newVal, oldVal) {
                         // 监视 父组件传入的 valueattr 值的变化绑定到当前组件的 data.value 值

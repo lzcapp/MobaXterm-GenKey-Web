@@ -4,11 +4,23 @@ VariantBase64Table.forEach((val, i) => VariantBase64Dict[i] = val);
 const VariantBase64ReverseDict = {};
 VariantBase64Table.forEach((val, i) => VariantBase64ReverseDict[val] = i);
 
+const userLanguage = navigator.language || navigator.userLanguage;
+const languageCode = userLanguage.substring(0, 2);
+
 /** license 类型 */
-const LicenseType = {
-    Professional: 1,
-    Educational: 3,
-    Persional: 4
+let LicenseType
+if (languageCode == "zh") {
+    LicenseType = {
+        'Professional (专业版)': 1,
+        'Educational (教育版)': 3,
+        'Personal (个人版)': 4
+    }
+} else {
+    LicenseType = {
+        Professional: 1,
+        Educational: 3,
+        Personal: 4
+    }
 }
 
 /**
