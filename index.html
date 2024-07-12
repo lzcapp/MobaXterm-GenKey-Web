@@ -130,12 +130,7 @@
         },
         methods: {
             changeLicense(licenseType) {
-                if (licenseType == 3 || licenseType == 4) {
-                    this.showCount = false
-                    this.setUserNum(1)
-                } else {
-                    this.showCount = true
-                }
+                this.showCount = !(licenseType == 3 || licenseType == 4);
             },
             resetForm: function () {
                 this.userName = '';
