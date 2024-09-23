@@ -1,4 +1,4 @@
-# MobaXterm-GenKey-Web
+# MobaXterm-GenKey (Web App)
 
 ![mobaxterm lzc app](https://github.com/user-attachments/assets/8a47f65d-a8b7-4350-9ca9-2676fd7feab8)
 
